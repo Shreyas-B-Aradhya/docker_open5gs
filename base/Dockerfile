@@ -67,8 +67,9 @@ RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg -
     apt-get update && apt install nodejs -y
 
 # Get open5gs code and install
-RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout 7dfd9a39649700c24c22f1978ed7a35541a72cca && meson build --prefix=`pwd`/install && \
+RUN git clone --recursive https://github.com/ashokhs77/open5gs && cd open5gs && \
+    git checkout c6c8faa2e5ca3fb02c672f8db9ed28d8e69b4e9a && \
+    meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install && \
     mkdir -p /open5gs/install/include
 

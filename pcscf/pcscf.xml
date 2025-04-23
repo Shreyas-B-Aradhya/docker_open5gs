@@ -14,7 +14,7 @@
 	DefaultAuthSessionTimeout="SUBSCRIPTION_EXPIRES_ENV"
 	MaxAuthSessionTimeout="SUBSCRIPTION_EXPIRES_ENV"
 >
-	<Peer FQDN="pcrf.EPC_DOMAIN" Realm="EPC_DOMAIN" port="PCRF_BIND_PORT"/> 
+	<Peer FQDN="hss.IMS_DOMAIN" Realm="IMS_DOMAIN" port="PCRF_BIND_PORT"/> 
 
 	<Acceptor port="PCSCF_BIND_PORT" bind="PCSCF_IP"/>
 

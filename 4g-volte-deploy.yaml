@@ -1,65 +1,4 @@
 services:
-  mongo:
-    image: mongo:6.0
-    container_name: mongo
-    command: --bind_ip 0.0.0.0
-    env_file:
-      - .env
-    volumes:
-      - mongodbdata:/data/db
-      - mongodbdata:/data/configdb
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "27017/udp"
-      - "27017/tcp"
-    networks:
-      default:
-        ipv4_address: ${MONGO_IP}
-  webui:
-    image: docker_open5gs
-    container_name: webui
-    depends_on:
-      - mongo
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=webui
-    volumes:
-      - ./webui:/mnt/webui
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "9999/tcp"
-    ports:
-      - "9999:9999/tcp"
-    networks:
-      default:
-        ipv4_address: ${WEBUI_IP}
-  hss:
-    image: docker_open5gs
-    container_name: hss
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=hss
-    volumes:
-      - ./hss:/mnt/hss
-      - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - mongo
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-    networks:
-      default:
-        ipv4_address: ${HSS_IP}
   sgwc:
     image: docker_open5gs
     depends_on:
@@ -99,8 +38,8 @@ services:
     expose:
       - "8805/udp"
       - "2152/udp"
-    # ports:
-    #   - "2152:2152/udp"
+    ports:
+      - "2152:2152/udp"
     networks:
       default:
         ipv4_address: ${SGWU_IP}
@@ -160,7 +99,7 @@ services:
   mme:
     image: docker_open5gs
     depends_on:
-      - hss
+      - pyhss
       - sgwc
       - sgwu
       - smf
@@ -186,35 +125,11 @@ services:
       - "36412/sctp"
       - "2123/udp"
       - "9091/tcp"
-    # ports:
-    #   - "36412:36412/sctp"
+    ports:
+      - "36412:36412/sctp"
     networks:
       default:
         ipv4_address: ${MME_IP}
-  pcrf:
-    image: docker_open5gs
-    container_name: pcrf
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=pcrf
-    depends_on:
-      - mongo
-    volumes:
-      - ./pcrf:/mnt/pcrf
-      - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-    networks:
-      default:
-        ipv4_address: ${PCRF_IP}
   dns:
     build: ./dns
     image: docker_dns
@@ -292,6 +207,10 @@ services:
       - "3868/udp"
       - "3868/tcp"
       - "8080/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
     ports:
       - "8080:8080/tcp"
     networks:

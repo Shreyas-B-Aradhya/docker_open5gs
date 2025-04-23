@@ -55,6 +55,9 @@ mme:
       server:
         - address: MME_IP
           port: 9091
+    eir:
+      enabled: True
+      allowed_states: [ WHITELIST, BLACKLIST, GREYLIST ]
     time:
       t3412:
         value: 540
