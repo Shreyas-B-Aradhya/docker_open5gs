@@ -60,11 +60,11 @@ RUN apt-get update && \
         libidn11-dev \
         libtalloc-dev
 
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    NODE_MAJOR=20 && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && apt install nodejs -y
+#RUN mkdir -p /etc/apt/keyrings
+#RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+#    NODE_MAJOR=20 && \
+#    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+#    apt-get update && apt install nodejs -y
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/ashokhs77/open5gs && cd open5gs && \
@@ -74,7 +74,7 @@ RUN git clone --recursive https://github.com/ashokhs77/open5gs && cd open5gs && 
     mkdir -p /open5gs/install/include
 
 # Building WebUI of open5gs
-RUN cd open5gs/webui && npm ci
+#RUN cd open5gs/webui && npm ci
 
 # Build final image
 FROM ubuntu:focal
@@ -112,11 +112,11 @@ RUN apt-get update && \
 
 RUN pip3 install click
 
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    NODE_MAJOR=20 && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && apt install nodejs -y
+#RUN mkdir -p /etc/apt/keyrings
+#RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+#    NODE_MAJOR=20 && \
+#    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+#    apt-get update && apt install nodejs -y
 
 RUN update-ca-certificates
 
@@ -124,7 +124,7 @@ COPY --from=builder /open5gs/install/bin /open5gs/install/bin
 COPY --from=builder /open5gs/install/etc /open5gs/install/etc
 COPY --from=builder /open5gs/install/include /open5gs/install/include
 COPY --from=builder /open5gs/install/lib /open5gs/install/lib
-COPY --from=builder /open5gs/webui /open5gs/webui
+#COPY --from=builder /open5gs/webui /open5gs/webui
 COPY --from=builder /open5gs/misc/db /open5gs/misc/db
 
 # Set the working directory to open5gs
