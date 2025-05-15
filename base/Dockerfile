@@ -49,8 +49,8 @@ RUN apt-get update && \
         libbson-dev \
         libyaml-dev \
         meson \
-        mongodb \
-        curl \
+     #   mongodb \
+      #  curl \
         gnupg \
         ca-certificates \
         libmicrohttpd-dev \
@@ -83,7 +83,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        curl \
+       # curl \
         ca-certificates \
         libssl-dev \
         libyaml-dev \
@@ -106,7 +106,7 @@ RUN apt-get update && \
         iperf3 \
         traceroute \
         tcpdump \
-        mongodb-clients \
+      #  mongodb-clients \
         gnupg && \
     apt-get autoremove -y && apt-get autoclean
 

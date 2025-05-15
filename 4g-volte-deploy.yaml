@@ -274,6 +274,8 @@ services:
       default:
         ipv4_address: ${MYSQL_IP}
   pyhss:
+    environment: 
+      - TZ=Asia/Kolkata
     build: ./pyhss
     image: docker_pyhss
     container_name: pyhss
@@ -292,10 +294,6 @@ services:
       - "3868/udp"
       - "3868/tcp"
       - "8080/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
     ports:
       - "8080:8080/tcp"
     networks:

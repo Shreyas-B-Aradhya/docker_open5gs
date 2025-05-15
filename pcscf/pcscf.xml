@@ -21,6 +21,6 @@
 	<Auth id="16777236" vendor="10415"/> <!-- 3GPP Rx -->
 	<Auth id="16777236" vendor="0"/> <!-- 3GPP Rx -->
 
-	<DefaultRoute FQDN="pcrf.EPC_DOMAIN" metric="10"/>
+	<DefaultRoute FQDN="hss.IMS_DOMAIN" metric="10"/>
 
 </DiameterPeer>
