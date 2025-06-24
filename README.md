@@ -10,6 +10,7 @@ Quite contrary to the name of the repository, this repository contains docker fi
 - srsRAN_Project (5G gNB) - https://github.com/srsran/srsRAN_Project
 - UERANSIM (5G gNB + 5G UE) - https://github.com/aligungr/UERANSIM
 - eUPF (5G UPF) - https://github.com/edgecomllc/eupf
+- OpenSIPS IMS - https://github.com/OpenSIPS/opensips
 
 ## Tested Setup
 
@@ -69,6 +70,9 @@ docker tag ghcr.io/herlesupreeth/docker_kamailio:master docker_kamailio
 
 docker pull ghcr.io/herlesupreeth/docker_mysql:master
 docker tag ghcr.io/herlesupreeth/docker_mysql:master docker_mysql
+
+docker pull ghcr.io/herlesupreeth/docker_opensips:master
+docker tag ghcr.io/herlesupreeth/docker_opensips:master docker_opensips
 ```
 
 For srsRAN components:
@@ -91,8 +95,14 @@ For OAI components:
 docker pull ghcr.io/herlesupreeth/docker_oai_enb:master
 docker tag ghcr.io/herlesupreeth/docker_oai_enb:master docker_oai_enb
 
-docker pull ghcr.io/herlesupreeth/docker_oai_ue:master
-docker tag ghcr.io/herlesupreeth/docker_oai_ue:master docker_oai_ue
+docker pull ghcr.io/herlesupreeth/docker_oai_gnb:master
+docker tag ghcr.io/herlesupreeth/docker_oai_gnb:master docker_oai_gnb
+```
+
+For EUPF component:
+```
+docker pull ghcr.io/herlesupreeth/docker_eupf:master
+docker tag ghcr.io/herlesupreeth/docker_eupf:master docker_eupf
 ```
 
 ### Build Docker images from source
@@ -119,6 +129,14 @@ docker build --no-cache --force-rm -t docker_srsran .
 # Build docker images for UERANSIM (gNB + UE)
 cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim .
+
+# Build docker images for EUPF
+cd ../eupf
+docker build --no-cache --force-rm -t docker_eupf .
+
+# Build docker images for OpenSIPS IMS
+cd ../opensips_ims_base
+docker build --no-cache --force-rm -t docker_opensips .
 ```
 
 #### Build docker images for additional components
@@ -335,22 +353,16 @@ sudo docker exec -it hss misc/db/open5gs-dbctl add 001010123456790 8baf473f2f8fd
 
 ### Provisioning of IMSI and MSISDN with OsmoHLR as follows:
 
-1. First, login to the osmohlr container
+1. First, telnet to OsmoHLR from host machine using the following command:
 
 ```
-docker exec -it osmohlr /bin/bash
-```
-
-2. Then, telnet to localhost
-
-```
-$ telnet localhost 4258
+$ telnet 172.22.0.32 4258
 
 OsmoHLR> enable
 OsmoHLR#
 ```
 
-3. Finally, register the subscriber information as in following example:
+2. Then, register the subscriber information as in following example:
 
 ```
 OsmoHLR# subscriber imsi 001010123456790 create
