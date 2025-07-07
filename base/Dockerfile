@@ -24,7 +24,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal as builder
+FROM ubuntu:focal AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -68,7 +68,7 @@ RUN apt-get update && \
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/ashokhs77/open5gs && cd open5gs && \
-    git checkout 48a06cc0ba122e702d38d67759f238d4e079377d && \
+    git checkout 4a9a5256ce58b6eeb8e38dcf9e8374ec34416045 && \
     meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install && \
     mkdir -p /open5gs/install/include
@@ -128,7 +128,7 @@ COPY --from=builder /open5gs/install/lib /open5gs/install/lib
 COPY --from=builder /open5gs/misc/db /open5gs/misc/db
 
 # Set the working directory to open5gs
-WORKDIR open5gs
+WORKDIR /open5gs
 
 COPY open5gs_init.sh /
-CMD /open5gs_init.sh
+CMD ["/open5gs_init.sh"]

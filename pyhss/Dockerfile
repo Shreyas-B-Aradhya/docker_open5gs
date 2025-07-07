@@ -54,7 +54,7 @@ RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyri
 
 # Get pyhss code and install
 RUN git clone https://github.com/ashokhs77/pyhss && \
-    cd pyhss && git checkout 2b303e1879c6c2d5bc8a1a9870cab54b45c5db5e
+    cd pyhss && git checkout 485adb70c7b96845b832dcb528133f4d89227411
 RUN cd pyhss && pip3 install -r requirements.txt
 
 RUN mkdir -p /pyhss/log/
